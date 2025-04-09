@@ -34,6 +34,20 @@ if [ ! -f node_modules/@apollo/server/node_modules/@apollo/utils.withrequired/di
   echo '{"name":"@apollo/utils.withrequired","version":"1.0.0","main":"dist/index.js"}' > node_modules/@apollo/server/node_modules/@apollo/utils.withrequired/package.json
 fi
 
+# 5. utils.createhash
+mkdir -p node_modules/@apollo/server/node_modules/@apollo/utils.createhash/dist
+if [ ! -f node_modules/@apollo/server/node_modules/@apollo/utils.createhash/dist/index.js ]; then
+  echo 'function createHash(value) { return String(value); } module.exports = { createHash };' > node_modules/@apollo/server/node_modules/@apollo/utils.createhash/dist/index.js
+  echo '{"name":"@apollo/utils.createhash","version":"1.0.0","main":"dist/index.js"}' > node_modules/@apollo/server/node_modules/@apollo/utils.createhash/package.json
+fi
+
+# Also handle the direct path for createhash
+mkdir -p node_modules/@apollo/utils.createhash/dist
+if [ ! -f node_modules/@apollo/utils.createhash/dist/index.js ]; then
+  echo 'function createHash(value) { return String(value); } module.exports = { createHash };' > node_modules/@apollo/utils.createhash/dist/index.js
+  echo '{"name":"@apollo/utils.createhash","version":"1.0.0","main":"dist/index.js"}' > node_modules/@apollo/utils.createhash/package.json
+fi
+
 # Handle MongoDB saslprep
 mkdir -p node_modules/@mongodb-js/saslprep/dist
 if [ ! -f node_modules/@mongodb-js/saslprep/dist/node.js ]; then
