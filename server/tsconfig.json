@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "ESNext",
-    "moduleResolution": "Node", // Changed from "Bundler" to "Node"
+    "module": "CommonJS",
+    "moduleResolution": "Node",
     "skipLibCheck": true,
     "rootDir": "src",
     "outDir": "dist",
@@ -11,15 +11,15 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "strict": false, // Changed from true to false
-    "noImplicitAny": false, // Added to allow implicitly any types
-    "noUnusedLocals": false, // Changed from true to false
-    "noUnusedParameters": false, // Changed from true to false
+    "strict": false,
+    "noImplicitAny": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
-    "exactOptionalPropertyTypes": false, // Changed from true to false
-    "noImplicitReturns": false, // Changed from true to false
-    "noImplicitOverride": false, // Changed from true to false
-    "useUnknownInCatchVariables": false // Changed from true to false
+    "exactOptionalPropertyTypes": false,
+    "noImplicitReturns": false,
+    "noImplicitOverride": false,
+    "useUnknownInCatchVariables": false
   },
   "include": [
     "src"
