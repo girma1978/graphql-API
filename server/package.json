@@ -16,7 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "@apollo/server": "4.7.1",
-    "@apollo/utils.isnodelike": "^1.1.1",
+    "@apollo/utils.isnodelike": "1.0.0",
     "@mongodb-js/saslprep": "^1.1.0",
     "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
@@ -28,7 +28,7 @@
     "mongoose": "^8.4.3"
   },
   "resolutions": {
-    "@apollo/utils.isnodelike": "^1.1.1"
+    "@apollo/utils.isnodelike": "1.0.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
