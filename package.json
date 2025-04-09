@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server/dist/server.js",
+    "start": "node dist/server.js",
     "start:dev": "concurrently \"cd server && npm run watch\" \"wait-on tcp:4000 && cd client && npm run dev\"",
     "server": "cd server && npm start",
     "server:dev": "cd server && npm run dev",
@@ -12,8 +12,7 @@
     "client:build": "cd client && npm run build",
     "client:dev": "cd client && npm run dev",
     "seed": "cd server && npm run seed",
-    "server:build": "cd server && npm i --save-dev @types/bcrypt @types/cors @types/jsonwebtoken && npm run build",
-    "build": "npm run server:build && npm run client:build",
+    "build": "concurrently \"cd server && npm run build\" \"cd client && npm run build\"",
     "render-build": "npm install && npm run build"
   },
   "keywords": [],

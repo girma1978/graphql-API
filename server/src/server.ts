@@ -1,3 +1,4 @@
+
 import express from 'express';
 import path from 'node:path';
 import { Request, Response } from 'express';
@@ -30,9 +31,9 @@ const startApolloServer = async () => {
   app.use(express.json());
 
   app.use('/graphql', expressMiddleware(server as any, {
-    context: async ({ req }: { req: Request }) => { // Corrected: Renamed _req to req and added type
+    context: async ({ req }) => {
       const authResult = authenticateToken({ req });
-      return { user: authResult.user };
+      return { user: authResult.user }; 
     },
   }));
 
