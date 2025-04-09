@@ -2,44 +2,52 @@
 # Install dependencies
 npm install --legacy-peer-deps
 
+# Rebuild bcrypt for the current platform
+npm rebuild bcrypt --build-from-source
+
 # Build the TypeScript code
 npm run build
 
 # Handle Apollo utils modules
-# 1. utils.isnodelike
-mkdir -p node_modules/@apollo/server/node_modules/@apollo/utils.isnodelike/dist
-if [ ! -f node_modules/@apollo/server/node_modules/@apollo/utils.isnodelike/dist/index.js ]; then
-  echo 'function isNodeLike() { return true; } module.exports = { isNodeLike };' > node_modules/@apollo/server/node_modules/@apollo/utils.isnodelike/dist/index.js
-  echo '{"name":"@apollo/utils.isnodelike","version":"1.0.0","main":"dist/index.js"}' > node_modules/@apollo/server/node_modules/@apollo/utils.isnodelike/package.json
-fi
+handle_apollo_utils() {
+  local module_name="$1"
+  local module_path="node_modules/@apollo/server/node_modules/@apollo/$module_name/dist"
+  local index_file="$module_path/index.js"
+  local package_file="$module_path/package.json"
 
-# 2. utils.keyvaluecache
-mkdir -p node_modules/@apollo/server/node_modules/@apollo/utils.keyvaluecache/dist
-if [ ! -f node_modules/@apollo/server/node_modules/@apollo/utils.keyvaluecache/dist/index.js ]; then
-  echo 'class KeyValueCache { async get(key) { return null; } async set(key, value) {} async delete(key) {} } module.exports = { KeyValueCache };' > node_modules/@apollo/server/node_modules/@apollo/utils.keyvaluecache/dist/index.js
-  echo '{"name":"@apollo/utils.keyvaluecache","version":"1.0.0","main":"dist/index.js"}' > node_modules/@apollo/server/node_modules/@apollo/utils.keyvaluecache/package.json
-fi
+  mkdir -p "$module_path"
+  if [ ! -f "$index_file" ]; then
+    echo "Creating $index_file"
+    case "$module_name" in
+      utils.isnodelike)
+        echo 'function isNodeLike() { return true; } module.exports = { isNodeLike };' > "$index_file"
+        ;;
+      utils.keyvaluecache)
+        echo 'class KeyValueCache { async get(key) { return null; } async set(key, value) {} async delete(key) {} } module.exports = { KeyValueCache };' > "$index_file"
+        ;;
+      utils.logger)
+        echo 'const logger = { debug() {}, info() {}, warn() {}, error() {} }; module.exports = { logger };' > "$index_file"
+        ;;
+      utils.withrequired)
+        echo 'function withRequired() { return {}; } module.exports = { withRequired };' > "$index_file"
+        ;;
+      utils.createhash)
+        echo 'function createHash(value) { return String(value); } module.exports = { createHash };' > "$index_file"
+        ;;
+      *)
+        echo "Warning: Unknown Apollo utils module: $module_name"
+        return 1
+        ;;
+    esac
+    echo "{\"name\":\"@apollo/$module_name\",\"version\":\"1.0.0\",\"main\":\"dist/index.js\"}" > "$package_file"
+  fi
+}
 
-# 3. utils.logger
-mkdir -p node_modules/@apollo/server/node_modules/@apollo/utils.logger/dist
-if [ ! -f node_modules/@apollo/server/node_modules/@apollo/utils.logger/dist/index.js ]; then
-  echo 'const logger = { debug() {}, info() {}, warn() {}, error() {} }; module.exports = { logger };' > node_modules/@apollo/server/node_modules/@apollo/utils.logger/dist/index.js
-  echo '{"name":"@apollo/utils.logger","version":"1.0.0","main":"dist/index.js"}' > node_modules/@apollo/server/node_modules/@apollo/utils.logger/package.json
-fi
-
-# 4. utils.withrequired
-mkdir -p node_modules/@apollo/server/node_modules/@apollo/utils.withrequired/dist
-if [ ! -f node_modules/@apollo/server/node_modules/@apollo/utils.withrequired/dist/index.js ]; then
-  echo 'function withRequired() { return {}; } module.exports = { withRequired };' > node_modules/@apollo/server/node_modules/@apollo/utils.withrequired/dist/index.js
-  echo '{"name":"@apollo/utils.withrequired","version":"1.0.0","main":"dist/index.js"}' > node_modules/@apollo/server/node_modules/@apollo/utils.withrequired/package.json
-fi
-
-# 5. utils.createhash
-mkdir -p node_modules/@apollo/server/node_modules/@apollo/utils.createhash/dist
-if [ ! -f node_modules/@apollo/server/node_modules/@apollo/utils.createhash/dist/index.js ]; then
-  echo 'function createHash(value) { return String(value); } module.exports = { createHash };' > node_modules/@apollo/server/node_modules/@apollo/utils.createhash/dist/index.js
-  echo '{"name":"@apollo/utils.createhash","version":"1.0.0","main":"dist/index.js"}' > node_modules/@apollo/server/node_modules/@apollo/utils.createhash/package.json
-fi
+handle_apollo_utils utils.isnodelike
+handle_apollo_utils utils.keyvaluecache
+handle_apollo_utils utils.logger
+handle_apollo_utils utils.withrequired
+handle_apollo_utils utils.createhash
 
 # Also handle the direct path for createhash
 mkdir -p node_modules/@apollo/utils.createhash/dist
@@ -49,15 +57,18 @@ if [ ! -f node_modules/@apollo/utils.createhash/dist/index.js ]; then
 fi
 
 # Handle MongoDB saslprep
-mkdir -p node_modules/@mongodb-js/saslprep/dist
-if [ ! -f node_modules/@mongodb-js/saslprep/dist/node.js ]; then
-  echo 'function saslprep(str) { return str; } module.exports = saslprep;' > node_modules/@mongodb-js/saslprep/dist/node.js
-  echo '{"name":"@mongodb-js/saslprep","version":"1.1.0","main":"dist/node.js"}' > node_modules/@mongodb-js/saslprep/package.json
-fi
+handle_mongodb_saslprep() {
+  local module_path="$1"
+  local node_file="$module_path/node.js"
+  local package_file="$module_path/package.json"
 
-# Also handle the nested path for MongoDB
-mkdir -p node_modules/mongoose/node_modules/mongodb/node_modules/@mongodb-js/saslprep/dist
-if [ ! -f node_modules/mongoose/node_modules/mongodb/node_modules/@mongodb-js/saslprep/dist/node.js ]; then
-  echo 'function saslprep(str) { return str; } module.exports = saslprep;' > node_modules/mongoose/node_modules/mongodb/node_modules/@mongodb-js/saslprep/dist/node.js
-  echo '{"name":"@mongodb-js/saslprep","version":"1.1.0","main":"dist/node.js"}' > node_modules/mongoose/node_modules/mongodb/node_modules/@mongodb-js/saslprep/package.json
-fi
+  mkdir -p "$module_path"
+  if [ ! -f "$node_file" ]; then
+    echo "Creating $node_file"
+    echo 'function saslprep(str) { return str; } module.exports = saslprep;' > "$node_file"
+    echo '{"name":"@mongodb-js/saslprep","version":"1.1.0","main":"dist/node.js"}' > "$package_file"
+  fi
+}
+
+handle_mongodb_saslprep "node_modules/@mongodb-js/saslprep/dist"
+handle_mongodb_saslprep "node_modules/mongoose/node_modules/mongodb/node_modules/@mongodb-js/saslprep/dist"
