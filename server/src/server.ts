@@ -1,4 +1,3 @@
-
 import express from 'express';
 import path from 'node:path';
 import { Request, Response } from 'express';
@@ -8,6 +7,11 @@ import { expressMiddleware } from '@apollo/server/express4';
 import { typeDefs, resolvers } from './schemas/index.js';
 import { authenticateToken } from './services/auth.js';
 import cors from 'cors';
+
+// Define a request type with the properties we need
+interface MyRequest extends Request {
+  // Add any custom properties you might be using from req
+}
 
 const server = new ApolloServer({
   typeDefs,
@@ -22,16 +26,18 @@ const startApolloServer = async () => {
   const app = express();
 
   app.use(cors({
-    origin: 'http://localhost:3000',
-    methods: ['GET', 'POST'],
+    origin: process.env.NODE_ENV === 'production' 
+      ? true  // Allow requests from any origin in production
+      : 'http://localhost:3000', // Local development origin
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   }));
 
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
 
-  app.use('/graphql', expressMiddleware(server as any, {
-    context: async ({ req }) => {
+  app.use('/graphql', expressMiddleware(server, {
+    context: async ({ req }: { req: MyRequest }) => {
       const authResult = authenticateToken({ req });
       return { user: authResult.user }; 
     },
