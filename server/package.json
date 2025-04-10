@@ -5,9 +5,7 @@
   "main": "dist/server.js",
   "type": "module",
   "scripts": {
-    "build": "tsc && npm run build-client && npm run copy-client",
-    "build-client": "cd ../client && npm install && npm run build",
-    "copy-client": "mkdir -p dist/client && cp -r ../client/dist/* dist/client/",
+    "build": "tsc",
     "start": "node dist/server.js",
     "seed": "node dist/seeds/seed.js",
     "watch": "nodemon dist/server.js",
