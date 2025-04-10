@@ -12,7 +12,7 @@
     "client:dev": "cd client && npm run dev",
     "seed": "cd server && npm run seed",
     "build": "concurrently \"cd server && npm run build\" \"cd client && npm run build\"",
-    "render-build": "cd server && npm install && npm i --save-dev @types/bcrypt @types/cors @types/jsonwebtoken && npm run build"
+    "render-build": "cd server && npm install && npm run build"
   },
   "keywords": [],
   "author": "",
