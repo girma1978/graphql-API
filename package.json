@@ -1,11 +1,11 @@
 {
-  "name": "main",
+  "name": "tech-matchup-app",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server/dist/server.js",
   "scripts": {
-    "start": "node dist/server.js",
-    "start:dev": "concurrently \"cd server && npm run watch\" \"wait-on tcp:4000 && cd client && npm run dev\"",
+    "start": "node server/server.js",
+    "start:dev": "concurrently \"cd server && npm run watch\" \"wait-on tcp:3001 && cd client && npm run dev\"",
     "server": "cd server && npm start",
     "server:dev": "cd server && npm run dev",
     "install": "cd server && npm i && cd ../client && npm i",
@@ -15,23 +15,12 @@
     "build": "concurrently \"cd server && npm run build\" \"cd client && npm run build\"",
     "render-build": "npm install && npm run build"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "@types/react-bootstrap": "^0.32.37",
-    "concurrently": "^8.2.2",
-    "wait-on": "^7.2.0"
-  },
   "dependencies": {
-    "@apollo/client": "^3.13.6",
-    "bootstrap": "^5.3.5",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "mongoose": "^8.13.2",
-    "react": "^19.1.0",
-    "react-bootstrap": "^2.10.9",
-    "react-dom": "^19.1.0",
-    "react-router-dom": "^7.5.0"
+    "concurrently": "^8.2.2"
+  },
+  "devDependencies": {
+    "wait-on": "^7.2.0"
   }
 }
