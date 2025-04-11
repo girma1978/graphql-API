@@ -1,18 +1,23 @@
 {
-  "name": "main",
+  "name": "graphql-api",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/server.js",
+  "main": "index.js",
+  "types": "module",
+  "engines": {
+    "node": "20.17.0"
+  },
   "scripts": {
-    "start": "node server/dist/server.js",
-    "start:dev": "concurrently \"cd server && npm run watch\" \"wait-on tcp:4000 && cd client && npm run dev\"",
+    "start": "npm run client:build && npm run server",
+    "start:dev": "concurrently \"npm run server:dev\" \"wait-on tcp:3001 && npm run client:dev\"",
     "server": "cd server && npm start",
     "server:dev": "cd server && npm run dev",
+    "server:build": "cd server && npm run build",
     "install": "cd server && npm i && cd ../client && npm i",
     "client:build": "cd client && npm run build",
     "client:dev": "cd client && npm run dev",
+    "build": "npm run client:build && npm run server:build",
     "seed": "cd server && npm run seed",
-    "build": "concurrently \"cd server && npm run build\" \"cd client && npm run build\"",
     "render-build": "npm install && npm run build"
   },
   "keywords": [],
