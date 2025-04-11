@@ -9,7 +9,7 @@ export default defineConfig({
     open: true,
     proxy: {
       '/graphql': {
-        target: 'https://graphql-api-8rbg.onrender.com',  
+        target: 'http://localhost:4000',  
         changeOrigin: true,
         secure: false,
         ws: true,

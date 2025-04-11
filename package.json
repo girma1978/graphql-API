@@ -2,8 +2,9 @@
   "name": "main",
   "version": "1.0.0",
   "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "cd server && npm start",
+    "start": "node dist/server.js",
     "start:dev": "concurrently \"cd server && npm run watch\" \"wait-on tcp:4000 && cd client && npm run dev\"",
     "server": "cd server && npm start",
     "server:dev": "cd server && npm run dev",
@@ -12,7 +13,7 @@
     "client:dev": "cd client && npm run dev",
     "seed": "cd server && npm run seed",
     "build": "concurrently \"cd server && npm run build\" \"cd client && npm run build\"",
-    "render-build": "cd server && npm install && npm run build"
+    "render-build": "npm install && npm run build"
   },
   "keywords": [],
   "author": "",
@@ -32,8 +33,5 @@
     "react-bootstrap": "^2.10.9",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.5.0"
-  },
-  "engines": {
-    "node": ">=16.0.0"
   }
 }

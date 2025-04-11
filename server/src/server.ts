@@ -62,7 +62,7 @@ const startApolloServer = async () => {
     console.log(`API server running on port ${PORT}!`);
     console.log(`GraphQL available at ${process.env.NODE_ENV === 'production' ? 
       'https://graphql-api-1.onrender.com/graphql' : 
-      `http://localhost:${PORT}/graphql`}`);
+      `server started`}`);
   });
 };
 
