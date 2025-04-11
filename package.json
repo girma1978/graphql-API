@@ -1,9 +1,13 @@
 {
-  "name": "main",
+  "name": "project-3",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
- "scripts": {
+  "types": "module",
+  "engines": {
+    "node": "20.17.0"
+  },
+  "scripts": {
     "start": "npm run client:build && npm run server",
     "start:dev": "concurrently \"npm run server:dev\" \"wait-on tcp:3001 && npm run client:dev\"",
     "server": "cd server && npm start",
@@ -25,10 +29,10 @@
     "wait-on": "^7.2.0"
   },
   "dependencies": {
-    "@apollo/client": "^3.13.6",
+    "@apollo/client": "^3.13.7",
     "bootstrap": "^5.3.5",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
+    "dotenv": "^16.5.0",
     "mongoose": "^8.13.2",
     "react": "^19.1.0",
     "react-bootstrap": "^2.10.9",
