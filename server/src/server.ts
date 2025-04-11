@@ -1,6 +1,7 @@
-
 import express from 'express';
 import path from 'node:path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 import { Request, Response } from 'express';
 import db from './config/connection.js';
 import { ApolloServer } from '@apollo/server';
@@ -8,6 +9,10 @@ import { expressMiddleware } from '@apollo/server/express4';
 import { typeDefs, resolvers } from './schemas/index.js';
 import { authenticateToken } from './services/auth.js';
 import cors from 'cors';
+
+// Create __dirname equivalent for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const server = new ApolloServer({
   typeDefs,
@@ -22,7 +27,7 @@ const startApolloServer = async () => {
   const app = express();
 
   app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: process.env.NODE_ENV === 'production' ? true : 'http://localhost:3000',
     methods: ['GET', 'POST'],
     credentials: true,
   }));
