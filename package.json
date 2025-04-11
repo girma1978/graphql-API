@@ -1,13 +1,9 @@
 {
-  "name": "graphql-api",
+  "name": "main",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "types": "module",
-  "engines": {
-    "node": "20.17.0"
-  },
-  "scripts": {
+ "scripts": {
     "start": "npm run client:build && npm run server",
     "start:dev": "concurrently \"npm run server:dev\" \"wait-on tcp:3001 && npm run client:dev\"",
     "server": "cd server && npm start",
