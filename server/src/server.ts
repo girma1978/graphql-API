@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'node:path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import fs from 'fs';
 import { Request, Response } from 'express';
 import db from './config/connection.js';
 import { ApolloServer } from '@apollo/server';
@@ -43,11 +44,19 @@ const startApolloServer = async () => {
   }));
 
   if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/dist')));
-
-    app.get('*', (_req: Request, res: Response) => {
-      res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-    });
+    // Use process.cwd() instead of __dirname
+    const clientDistPath = path.resolve(process.cwd(), '../client/dist');
+    
+    // Check if the directory exists before trying to serve from it
+    if (fs.existsSync(clientDistPath)) {
+      app.use(express.static(clientDistPath));
+      
+      app.get('*', (_req: Request, res: Response) => {
+        res.sendFile(path.resolve(clientDistPath, 'index.html'));
+      });
+    } else {
+      console.log('Client/dist directory not found. Serving API only.');
+    }
   }
 
   app.listen(PORT, () => {
