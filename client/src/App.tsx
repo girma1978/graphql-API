@@ -4,15 +4,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import SearchBooks from './pages/SearchBooks';
 import SavedBooks from './pages/SavedBooks';
-import Auth from './utils/auth'; // Ensure the path to your Auth utility is correct
+import Auth from './utils/auth';
 
-// Create a conditional URL based on the environment
-const apiUrl = import.meta.env.PROD 
-  ? 'https://graphql-api-8rbg.onrender.com/graphql' 
-  : '/graphql';
-
+// Hardcoded server URL - this points to your GraphQL server
 const httpLink = createHttpLink({
-  uri: apiUrl,
+  uri: 'https://graphql-api-8rbg.onrender.com/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -26,7 +22,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const client = new ApolloClient({
-  link: ApolloLink.from([authLink, httpLink]), // Apply the authLink
+  link: ApolloLink.from([authLink, httpLink]),
   cache: new InMemoryCache(),
 });
 

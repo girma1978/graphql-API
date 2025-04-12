@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+
 export default defineConfig({
   plugins: [react()],
   server: {
@@ -13,5 +14,9 @@ export default defineConfig({
         ws: true,
       },
     },
+  },
+  // Make API URL available during build
+  define: {
+    'import.meta.env.VITE_API_URL': JSON.stringify('https://graphql-api-8rbg.onrender.com/graphql')
   },
 });
