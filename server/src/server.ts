@@ -52,7 +52,6 @@ const startApolloServer = async () => {
 
   app.listen(PORT, () => {
     console.log(`Server is running`);
-    console.log(`GraphQL at https://graphql-api-8rbg.onrender.com/graphql`);
   });
 };
 
