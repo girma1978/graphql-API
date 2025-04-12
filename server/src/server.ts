@@ -20,7 +20,7 @@ const startApolloServer = async () => {
   const PORT = process.env.PORT || 4000;
   const app = express();
 
-  // Updated CORS configuration to allow requests from your Render client URL
+  // Updated CORS configuration to allow requests from your static site URL
   app.use(cors({
     origin: ['http://localhost:3000', 'https://graphql-api-1.onrender.com'],
     methods: ['GET', 'POST'],
@@ -30,6 +30,11 @@ const startApolloServer = async () => {
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
 
+  // Health check endpoint for monitoring
+  app.get('/health', (_req: Request, res: Response) => {
+    res.status(200).json({ status: 'up', timestamp: new Date().toISOString() });
+  });
+
   app.use('/graphql', expressMiddleware(server as any, {
     context: async ({ req }) => {
       const authResult = authenticateToken({ req });
@@ -37,16 +42,17 @@ const startApolloServer = async () => {
     },
   }));
 
+  // Since client is deployed separately, we don't need to serve static files
+  // This simple route replaces the static file serving
   if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/dist')));
-
-    app.get('*', (_req: Request, res: Response) => {
-      res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+    app.get('/', (_req: Request, res: Response) => {
+      res.json({ message: 'API server running' });
     });
   }
 
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
+    console.log(`GraphQL at http://localhost:${PORT}/graphql`);
   });
 };
 
