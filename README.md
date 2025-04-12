@@ -55,6 +55,11 @@ This book search engine allows avid readers to search for new books to read and 
 - TypeScript
 - Vite
 
+## Live Demo
+
+- **Frontend**: [https://graphql-api-1.onrender.com](https://graphql-api-1.onrender.com)  
+- **Backend**: [https://graphql-api-8rbg.onrender.com](https://graphql-api-8rbg.onrender.com)
+
 ## License
 
 This project is licensed under the MIT License.
